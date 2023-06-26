@@ -68,7 +68,7 @@ checkGuess();
 ```
 를 통하여 호출할 수 있으며, 키보드의 Enter키를 누르면 경고(메시지) 창이 나올 것이다. 
 
-![ConsoleImage](C:\Users\sohyung\Documents\JS_StudyNote\Image)
+![ConsoleImage](Image/consoleImage.png)
 
 ## 조건
 
