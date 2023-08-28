@@ -1,45 +1,45 @@
-init();
+Init();
 
-function init(){
-    document.querySelector('form').addEventListener('submit', addToDo);
-    document.getElementById('clear').addEventListener('click', clearToDoList);
-    document.querySelector('ul').addEventListener('click', deleteOrCheck);
+function Init(){
+    document.querySelector('form').addEventListener('submit', AddToDo);
+    document.getElementById('clear').addEventListener('click', ClearToDoList); // HTML의 clear id에 click이벤트 파싱
+    document.querySelector('ul').addEventListener('click', DeleteOrCheck);
 }
 
-function deleteOrCheck(e){
+function DeleteOrCheck(e){
     if(e.target.className == 'delete')
-        deleteToDo(e);
+        DeleteToDo(e);
     else
-        checkToDo(e);
+        CheckToDo(e);
 }
 
-function deleteToDo(e){
+function DeleteToDo(e){
     let remove = e.target.parentNode;
     let parentNode = remove.parentNode;
     parentNode.removeChild(remove);
 }
 
-function checkToDo(e){
+function CheckToDo(e){
     const todo = e.target.nextSibling;
-    if(e.target.checked)
+    if(e.target.checked) // 체크가 되면 색상 변경
         todo.style.color = '#dddddd';
     else
         todo.style.color = '#000000';
 }
 
-function clearToDoList(e){
+function ClearToDoList(e){
     let ul = document.querySelector('ul').innerHTML = '';
 }
 
-function addToDo(e){
+function AddToDo(e){
     e.preventDefault();
     let toDoValue = document.querySelector("input");
     if(toDoValue.value!=='')
-        addTask(toDoValue.value);
+        AddTask(toDoValue.value);
         toDoValue.value = '';
 }
 
-function addTask(value){
+function AddTask(value){
 	let ul = document.querySelector('ul');
 	let li = document.createElement('li');
 	li.innerHTML = `<input type="checkbox"><label>${value}</label>  <span class="delete">x</span>`;
