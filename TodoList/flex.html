@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .container  
+        {
+            margin: 0 auto;
+            width:600px;
+            height: 400px;
+            background-color: #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            /* 메인축과 교차축 */
+        }
+        .box {
+            width:50px;
+            flex-grow: 2;
+            margin-right: 10px;
+            height:50px;
+            background-color: rgb(231, 68, 68);
+            border:1px solid #444;
+            box-sizing: border-box;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+        <div class="box">4</div>
+        <div class="box">4</div>
+    </div>
+</body>
+</html>

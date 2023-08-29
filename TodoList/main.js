@@ -7,7 +7,7 @@ function Init(){
 }
 
 function DeleteOrCheck(e){
-    if(e.target.className == 'delete')
+    if(e.target.classList.contains('delete'))
         DeleteToDo(e);
     else
         CheckToDo(e);
@@ -42,7 +42,11 @@ function AddToDo(e){
 function AddTask(value){
 	let ul = document.querySelector('ul');
 	let li = document.createElement('li');
-	li.innerHTML = `<input type="checkbox"><label>${value}</label>  <span class="delete">x</span>`;
+    li.classList.add("item");
+	li.innerHTML = `<input type="checkbox"><label>${value}</label>  <span class="delete btn">x</span>`;
 	ul.appendChild(li);
 	document.querySelector('.todolist').style.display = 'block';
 }
+
+
+// localstorage라는걸 이용해서 웹브라우저를 껐다 켜도 저장된게 유지되게 

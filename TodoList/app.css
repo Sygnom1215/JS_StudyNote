@@ -1,0 +1,88 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+.main 
+{
+    margin:0 auto;
+    width: 600px;
+    
+}
+
+.title 
+{
+    text-align: center;
+    margin:20px 0;
+    font-size: 40px;
+}
+
+.input-row 
+{
+    display: flex;
+}
+
+.input-row > input 
+{
+    flex-grow:1;
+    margin-right: 10px;
+    border:1px solid #ddd;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+}
+.input-row > button 
+{
+    flex-basis: 80px;
+    
+}
+
+.btn
+{
+    display: inline-block;
+    padding:0.5rem 0.75rem;
+    background-color: #473bf0;
+    color:#fff;
+    border:1px solid #392ceb;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+.btn:hover 
+{
+    background-color: #665cf1;
+}
+
+.todo-ul 
+{
+    list-style: none;
+}
+
+.todo-ul > .item 
+{
+    display: flex;
+    
+    align-items: center;
+    padding: 0.4rem 0.75rem;
+    box-shadow: 2px 2px 4px 4px rgba(0,0,0,0.1);
+    margin: 10px;
+    border-radius: 0.4rem;
+}
+
+.todo-ul > .item > input 
+{
+    flex-basis: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+.todo-ul > .item > label
+{
+    font-weight: 500;
+    font-size:20px;
+    flex-grow: 1;
+}
+.todo-ul > .item > span 
+{
+    background-color: #f31c1c;
+    border:1px solid #d61515;
+}
