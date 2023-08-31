@@ -1,8 +1,10 @@
+let TODOLIST = [];
+
 Init();
 
 function Init(){
     document.querySelector('form').addEventListener('submit', AddToDo);
-    document.getElementById('clear').addEventListener('click', ClearToDoList); // HTML의 clear id에 click이벤트 파싱
+    document.getElementById('clear').addEventListener('click', ClearToDoList);
     document.querySelector('ul').addEventListener('click', DeleteOrCheck);
 }
 
@@ -17,11 +19,12 @@ function DeleteToDo(e){
     let remove = e.target.parentNode;
     let parentNode = remove.parentNode;
     parentNode.removeChild(remove);
+    localStorage.removeItem(TODOLIST);
 }
 
 function CheckToDo(e){
     const todo = e.target.nextSibling;
-    if(e.target.checked) // 체크가 되면 색상 변경
+    if(e.target.checked)
         todo.style.color = '#dddddd';
     else
         todo.style.color = '#000000';
@@ -29,6 +32,7 @@ function CheckToDo(e){
 
 function ClearToDoList(e){
     let ul = document.querySelector('ul').innerHTML = '';
+    localStorage.clear()
 }
 
 function AddToDo(e){
@@ -46,7 +50,9 @@ function AddTask(value){
 	li.innerHTML = `<input type="checkbox"><label>${value}</label>  <span class="delete btn">x</span>`;
 	ul.appendChild(li);
 	document.querySelector('.todolist').style.display = 'block';
+    SaveTodoList(li);
 }
 
-
-// localstorage라는걸 이용해서 웹브라우저를 껐다 켜도 저장된게 유지되게 
+function SaveTodoList(toDo){
+    localStorage.setItem(TODOLIST, toDo);
+}
