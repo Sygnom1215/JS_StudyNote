@@ -1,6 +1,8 @@
 let TODOLIST = [];
-
+const storageKey = "TODOLIST";
+let idx = 0;
 Init();
+
 
 function Init() {
     document.querySelector('form').addEventListener('submit', AddToDo);
@@ -8,12 +10,13 @@ function Init() {
     document.querySelector('ul').addEventListener('click', DeleteOrCheck);
 
     // 페이지 로드 시 로컬 스토리지에서 데이터 불러오기
-    // 이렇게 하면 중복생성이 되어서 새로고침할 때 화면에 보이는 출력값을 한 번 날려줘야 한다.
-    const storedTodoList = localStorage.getItem('TODOLIST');
+    const storedTodoList = localStorage.getItem(storageKey);
     if (storedTodoList) {
-        TODOLIST = JSON.parse(storedTodoList);
-        TODOLIST.forEach((task) => {
-            AddTask(task.value, task.checked);
+        TODOLIST = [];
+        let loadData = JSON.parse(storedTodoList);
+        loadData.forEach((task) => {
+            AddTask(task.idx, task.value, task.checked);
+            idx = task.idx +1;
         });
     }
 }
@@ -31,9 +34,11 @@ function DeleteToDo(e) {
     let parentNode = remove.parentNode;
     parentNode.removeChild(remove);
 
-    // 로컬 스토리지에서 해당 할 일 제거 (가 안 됨)
-    const taskValue = e.target.previousSibling.textContent;
-    TODOLIST = TODOLIST.filter((task) => task.value !== taskValue);
+    // 로컬 스토리지에서 해당 할 일 제거
+    console.log(e.target.dataset.idx);
+    let findIdx = TODOLIST.findIndex(x => x.idx == e.target.dataset.idx);
+    TODOLIST.splice(findIdx, 1);
+    //TODOLIST = TODOLIST.filter((task) => task.value !== taskValue);
     SaveTodoList();
 }
 
@@ -57,35 +62,41 @@ function CheckToDo(e) {
 function ClearToDoList() {
     let ul = document.querySelector('ul');
     ul.innerHTML = '';
-
+    
     // 로컬 스토리지에서 데이터 모두 제거
-    localStorage.removeItem('TODOLIST');
+    localStorage.removeItem(storageKey);
     TODOLIST = [];
+    idx = 0;
 }
 
 function AddToDo(e) {
     e.preventDefault();
     let toDoValue = document.querySelector("input");
     if (toDoValue.value !== '') {
-        AddTask(toDoValue.value);
+        AddTask(idx, toDoValue.value);
+        idx++;
         toDoValue.value = '';
     }
 }
 
-function AddTask(value, checked = false) {
+function AddTask(idx, value, checked = false) {
     let ul = document.querySelector('ul');
     let li = document.createElement('li');
     li.classList.add("item");
-    li.innerHTML = `<input type="checkbox" ${checked ? 'checked' : ''}><label>${value}</label>  <span class="delete btn">x</span>`;
+    li.innerHTML = 
+        `<input type="checkbox" ${checked ? 'checked' : ''}>
+        <label>${value}</label>  
+        <span data-idx="${idx}" class="delete btn">x</span>`;
     ul.appendChild(li);
     document.querySelector('.todolist').style.display = 'block';
-
+    
     // 로컬 스토리지에 할 일 추가
-    TODOLIST.push({ value, checked });
+    TODOLIST.push({idx, value, checked });
+    
     SaveTodoList();
 }
 
 function SaveTodoList() {
     // 로컬 스토리지에 할 일 목록 저장
-    localStorage.setItem('TODOLIST', JSON.stringify(TODOLIST));
+    localStorage.setItem(storageKey, JSON.stringify(TODOLIST));
 }
