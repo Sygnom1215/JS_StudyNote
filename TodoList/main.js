@@ -1,6 +1,19 @@
 let TODOLIST = [];
 const storageKey = "TODOLIST";
 let idx = 0;
+
+todoTime = () => {
+    let now = new Date();
+    let nowTime = {
+        year: now.getFullYear(),    // 현재 년도
+        month: now.getMonth() + 1,  // 현재 월
+        date: now.getDate(),        // 현재 날짜
+        hours: now.getHours(),      // 현재 시간
+        minutes: now.getMinutes(),  // 현재 분
+    };
+}
+
+
 Init();
 
 
@@ -44,11 +57,11 @@ function DeleteToDo(e) {
 
 function CheckToDo(e) {
     const todo = e.target.nextSibling;
-    if (e.target.checked) {
-        todo.style.color = '#dddddd';
-    } else {
-        todo.style.color = '#000000';
-    }
+    // if (e.target.checked) {
+    //     todo.style.color = '#dddddd';
+    // } else {
+    //     todo.style.color = '#000000';
+    // }
 
     // 로컬 스토리지에서 체크 여부 저장
     const taskValue = todo.textContent;
@@ -82,10 +95,18 @@ function AddToDo(e) {
 function AddTask(idx, value, checked = false) {
     let ul = document.querySelector('ul');
     let li = document.createElement('li');
+    let current_date = document.getElementById("current_date");
     li.classList.add("item");
+
+    date = new Date();
+    year = date.getFullYear();
+    month = date.getMonth() + 1;
+    day = date.getDate();
+
     li.innerHTML = 
         `<input type="checkbox" ${checked ? 'checked' : ''}>
         <label>${value}</label>  
+        <div id="current_date">${month + "/" + day + "/" + year}</div>
         <span data-idx="${idx}" class="delete btn">x</span>`;
     ul.appendChild(li);
     document.querySelector('.todolist').style.display = 'block';
