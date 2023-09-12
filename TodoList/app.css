@@ -48,6 +48,11 @@
     cursor: pointer;
     transition: background-color 0.4s;
 }
+.btn.small 
+{
+    font-size:12px;
+    padding:0.25rem 0.5rem;
+}
 .btn:hover 
 {
     background-color: #665cf1;
@@ -81,8 +86,35 @@
     font-size:20px;
     flex-grow: 1;
 }
-.todo-ul > .item > span 
+.todo-ul > .item > .delete 
 {
     background-color: #f31c1c;
     border:1px solid #d61515;
+}
+
+.item .date-label 
+{
+    margin-right: 10px;
+    
+}
+
+.item .status 
+{
+    padding:0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    color:#fff;
+    font-size:12px;
+    margin-right: 10px;
+}
+
+.item .status.success {
+    background-color: #0ebe52;
+}
+
+.item .status.fail {
+    background-color: #b93210;
+}
+
+.item .status.progress {
+    background-color: #0e2ebe;
 }

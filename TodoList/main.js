@@ -2,6 +2,13 @@ let TODOLIST = [];
 const storageKey = "TODOLIST";
 let idx = 0;
 
+const StatusMap = 
+{
+    0: "progress",
+    1: "success",
+    2: "failed"
+}
+
 todoTime = () => {
     let now = new Date();
     let nowTime = {
@@ -15,7 +22,6 @@ todoTime = () => {
 
 
 Init();
-
 
 function Init() {
     document.querySelector('form').addEventListener('submit', AddToDo);
@@ -51,7 +57,6 @@ function DeleteToDo(e) {
     console.log(e.target.dataset.idx);
     let findIdx = TODOLIST.findIndex(x => x.idx == e.target.dataset.idx);
     TODOLIST.splice(findIdx, 1);
-    //TODOLIST = TODOLIST.filter((task) => task.value !== taskValue);
     SaveTodoList();
 }
 
@@ -92,10 +97,10 @@ function AddToDo(e) {
     }
 }
 
-function AddTask(idx, value, checked = false) {
+
+function AddTask(idx, value, checked = false, status) {
     let ul = document.querySelector('ul');
     let li = document.createElement('li');
-    let current_date = document.getElementById("current_date");
     li.classList.add("item");
 
     date = new Date();
@@ -103,11 +108,15 @@ function AddTask(idx, value, checked = false) {
     month = date.getMonth() + 1;
     day = date.getDate();
 
+    // date가 지났다면, StatusMap의 status == 3
+    // if문으로 계산해줘야 할거야
+
     li.innerHTML = 
         `<input type="checkbox" ${checked ? 'checked' : ''}>
+        <span class='status ${StatusMap[status] === undefined ? '' : StatusMap[status] }'>완료</span>
         <label>${value}</label>  
-        <div id="current_date">${month + "/" + day + "/" + year}</div>
-        <span data-idx="${idx}" class="delete btn">x</span>`;
+        <div class="date-label">${month + "/" + day + "/" + year}</div>
+        <span data-idx="${idx}" class="delete btn small">x</span>`;   
     ul.appendChild(li);
     document.querySelector('.todolist').style.display = 'block';
     
@@ -120,4 +129,13 @@ function AddTask(idx, value, checked = false) {
 function SaveTodoList() {
     // 로컬 스토리지에 할 일 목록 저장
     localStorage.setItem(storageKey, JSON.stringify(TODOLIST));
+}
+
+function PageAlgo() {
+    let totalCount = 10; // todo가 추가될 때마다 ++되게 만들기
+    const limit = 5;
+
+    let totalPage = Math.ceil(totalCount / limit);
+    
+
 }
