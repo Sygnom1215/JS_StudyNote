@@ -6,20 +6,8 @@ const StatusMap =
 {
     0: "progress",
     1: "success",
-    2: "failed"
+    2: "failed",
 }
-
-todoTime = () => {
-    let now = new Date();
-    let nowTime = {
-        year: now.getFullYear(),    // 현재 년도
-        month: now.getMonth() + 1,  // 현재 월
-        date: now.getDate(),        // 현재 날짜
-        hours: now.getHours(),      // 현재 시간
-        minutes: now.getMinutes(),  // 현재 분
-    };
-}
-
 
 Init();
 
@@ -97,31 +85,36 @@ function AddToDo(e) {
     }
 }
 
+function newDate() {
+    date = new Date();
+    year = date.getFullYear();
+    month = date.getMonth() + 1;
+    day = date.getDate();
+    hours = date.getHours();
+    recordDate = year + "/" + month + "/" + day;
+
+    return recordDate; // 타임스탬프 찍은 뒤에 해당 시간을 담아줄 수 있는 변수 필요
+}
 
 function AddTask(idx, value, checked = false, status) {
     let ul = document.querySelector('ul');
     let li = document.createElement('li');
     li.classList.add("item");
 
-    date = new Date();
-    year = date.getFullYear();
-    month = date.getMonth() + 1;
-    day = date.getDate();
+    let date = newDate();
 
-    // date가 지났다면, StatusMap의 status == 3
-    // if문으로 계산해줘야 할거야
-
+    status = 1;
     li.innerHTML = 
         `<input type="checkbox" ${checked ? 'checked' : ''}>
-        <span class='status ${StatusMap[status] === undefined ? '' : StatusMap[status] }'>완료</span>
+        <span class='status ${StatusMap[status] === undefined ? '' : StatusMap[status] }'>${status}</span>
         <label>${value}</label>  
-        <div class="date-label">${month + "/" + day + "/" + year}</div>
+        <div class="date-label">${date}</div>
         <span data-idx="${idx}" class="delete btn small">x</span>`;   
     ul.appendChild(li);
     document.querySelector('.todolist').style.display = 'block';
     
     // 로컬 스토리지에 할 일 추가
-    TODOLIST.push({idx, value, checked });
+    TODOLIST.push({idx, value, checked, date });
     
     SaveTodoList();
 }

@@ -111,7 +111,7 @@
     background-color: #0ebe52;
 }
 
-.item .status.fail {
+.item .status.failed {
     background-color: #b93210;
 }
 
