@@ -2,8 +2,7 @@ let TODOLIST = [];
 const storageKey = "TODOLIST";
 let idx = 0;
 
-const StatusMap = 
-{
+const StatusMap = {
     0: "progress",
     1: "success",
     2: "failed",
@@ -23,7 +22,7 @@ function Init() {
         let loadData = JSON.parse(storedTodoList);
         loadData.forEach((task) => {
             AddTask(task.idx, task.value, task.checked);
-            idx = task.idx +1;
+            idx = task.idx + 1;
         });
     }
 }
@@ -68,7 +67,7 @@ function CheckToDo(e) {
 function ClearToDoList() {
     let ul = document.querySelector('ul');
     ul.innerHTML = '';
-    
+
     // 로컬 스토리지에서 데이터 모두 제거
     localStorage.removeItem(storageKey);
     TODOLIST = [];
@@ -90,7 +89,6 @@ function newDate() {
     year = date.getFullYear();
     month = date.getMonth() + 1;
     day = date.getDate();
-    hours = date.getHours();
     recordDate = year + "/" + month + "/" + day;
 
     return recordDate; // 타임스탬프 찍은 뒤에 해당 시간을 담아줄 수 있는 변수 필요
@@ -104,18 +102,23 @@ function AddTask(idx, value, checked = false, status) {
     let date = newDate();
 
     status = 1;
-    li.innerHTML = 
+    li.innerHTML =
         `<input type="checkbox" ${checked ? 'checked' : ''}>
         <span class='status ${StatusMap[status] === undefined ? '' : StatusMap[status] }'>${status}</span>
         <label>${value}</label>  
         <div class="date-label">${date}</div>
-        <span data-idx="${idx}" class="delete btn small">x</span>`;   
+        <span data-idx="${idx}" class="delete btn small">x</span>`;
     ul.appendChild(li);
     document.querySelector('.todolist').style.display = 'block';
-    
+
     // 로컬 스토리지에 할 일 추가
-    TODOLIST.push({idx, value, checked, date });
-    
+    TODOLIST.push({
+        idx,
+        value,
+        checked,
+        date
+    });
+
     SaveTodoList();
 }
 
@@ -123,12 +126,60 @@ function SaveTodoList() {
     // 로컬 스토리지에 할 일 목록 저장
     localStorage.setItem(storageKey, JSON.stringify(TODOLIST));
 }
+// -------------------------------------------------------------------------------
 
-function PageAlgo() {
-    let totalCount = 10; // todo가 추가될 때마다 ++되게 만들기
-    const limit = 5;
+const list_element = document.getElementById('list');
+const pagination_element = document.getElementById('pagination');
 
-    let totalPage = Math.ceil(totalCount / limit);
-    
+let current_page = 1;
+let rows = 5;
 
+function DisplayList (items, wrapper, rows_per_page, page) {
+	wrapper.innerHTML = "";
+	page--;
+
+	let start = rows_per_page * page;
+	let end = start + rows_per_page;
+	let paginatedItems = items.slice(start, end);
+
+	for (let i = 0; i < paginatedItems.length; i++) {
+		let item = paginatedItems[i];
+
+		let item_element = document.createElement('div');
+		item_element.classList.add('item');
+		item_element.innerText = item;
+		
+		wrapper.appendChild(item_element);
+	}
 }
+
+function SetupPagination (items, wrapper, rows_per_page) {
+	wrapper.innerHTML = "";
+
+	let page_count = Math.ceil(items.length / rows_per_page);
+	for (let i = 1; i < page_count + 1; i++) {
+		let btn = PaginationButton(i, items);
+		wrapper.appendChild(btn);
+	}
+}
+function PaginationButton (page, items) {
+	let button = document.createElement('button');
+	button.innerText = page;
+
+	if (current_page == page) button.classList.add('active');
+
+	button.addEventListener('click', function () {
+		current_page = page;
+		DisplayList(items, list_element, rows, current_page);
+
+		let current_btn = document.querySelector('.pagenumbers button.active');
+		current_btn.classList.remove('active');
+
+		button.classList.add('active');
+	});
+
+	return button;
+}
+
+DisplayList(TODOLIST, list_element, rows, current_page);
+SetupPagination(TODOLIST, pagination_element, rows);
